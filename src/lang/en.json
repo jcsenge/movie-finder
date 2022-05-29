@@ -1,5 +1,9 @@
 {
   "hello": "Hello! Let's find some movies for you!",
   "submit": "Submit",
-  "search_for_movies": "Search for movies"
+  "search_for_movies": "Search for movies",
+  "close": "Close",
+  "genre": "Genre",
+  "released": "Released",
+  "information_from_wikipedia": "Information from Wikipedia"
 }

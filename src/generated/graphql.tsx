@@ -1208,7 +1208,7 @@ export type SearchMoviesQueryVariables = Exact<{
 }>;
 
 
-export type SearchMoviesQuery = { __typename?: 'Query', searchMovies: Array<{ __typename?: 'Movie', id: string, name: string, overview: string, releaseDate?: any | null, poster?: { __typename?: 'Poster', huge?: any | null } | null, backdrop?: { __typename?: 'Backdrop', large?: any | null } | null }> };
+export type SearchMoviesQuery = { __typename?: 'Query', searchMovies: Array<{ __typename?: 'Movie', id: string, name: string, overview: string, releaseDate?: any | null, score: number, genres: Array<{ __typename?: 'Genre', name: string }>, poster?: { __typename?: 'Poster', huge?: any | null } | null }> };
 
 
 export const SearchMoviesDocument = gql`
@@ -1218,11 +1218,12 @@ export const SearchMoviesDocument = gql`
     name
     overview
     releaseDate
+    score
+    genres {
+      name
+    }
     poster {
       huge
-    }
-    backdrop {
-      large
     }
   }
 }

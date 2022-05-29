@@ -7,11 +7,12 @@ export const MOVIES = gql`
     name
     overview
     releaseDate
+    score
+    genres {
+      name
+    }
     poster {
       huge
-    }
-    backdrop{
-      large
     }
   }
 }`;

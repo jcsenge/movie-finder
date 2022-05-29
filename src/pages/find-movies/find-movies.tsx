@@ -8,7 +8,7 @@ export interface FindMoviesProps { }
 
 export const FindMovies: FC<FindMoviesProps> = () => {
     const { t } = useTranslation();
-    const [searchTerm, setSearchTerm] = React.useState("Mary");
+    const [searchTerm, setSearchTerm] = React.useState("");
     return (
         <Grid container direction="column" padding={4}>
             <Grid item>
