@@ -7,6 +7,7 @@ import '@fontsource/roboto/700.css';
 import { CssBaseline } from '@mui/material';
 import { initReactI18next } from 'react-i18next';
 import i18n from "i18next";
+import "./App.css";
 import translationEN from "./lang/en.json";
 
 const resources = {
@@ -25,7 +26,6 @@ i18n
       escapeValue: false
     }
   });
-
 
 const darkTheme = createTheme({
   palette: {
