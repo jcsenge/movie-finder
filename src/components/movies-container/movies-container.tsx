@@ -1,22 +1,34 @@
+import { useQuery } from "@apollo/client";
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
+import { Movie, SearchMoviesQuery, useSearchMoviesQuery } from "../../generated/graphql";
 
-export const MoviesContainer: FC = () => {
+const PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/400x500/424242/969696.png?text=No+Poster+Image";
+
+export interface MoviesContainerProps {
+    searchTerm: string;
+}
+
+export const MoviesContainer: FC<MoviesContainerProps> = ({ searchTerm }) => {
+
+    const { loading, error, data } = useSearchMoviesQuery({ variables: { query: searchTerm } });
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :</p>;
+
     return (
         <Grid item container justifyContent="center" alignItems="center" columns={{ xs: 4, md: 6 }} spacing={2} marginY={4}>
-            {[1, 2, 3, 4, 6].map((movie) => (
-                <Grid item sx={{ minWidth: 200 }} key={movie}>
-                    <Card >
-                        <CardMedia component="img" height="300" alt="movieImage" image={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/neMZH82Stu91d3iqvLdNQfqPPyl.jpg`} />
+            {data && data.searchMovies.map((movie) => (
+                <Grid item sx={{ minWidth: 200 }} key={movie.id}>
+                    <Card>
+                        <CardMedia component="img" height="300" alt="movieImage" image={movie.poster?.huge ?? PLACEHOLDER_IMAGE_URL} />
                         <CardContent>
                             <Typography fontSize={18} textAlign="center">
-                                The Lost City
+                                {movie.name}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Grid>
             ))}
-
         </Grid>
     );
 };

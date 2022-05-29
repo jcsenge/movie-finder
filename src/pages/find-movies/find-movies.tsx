@@ -8,6 +8,7 @@ export interface FindMoviesProps { }
 
 export const FindMovies: FC<FindMoviesProps> = () => {
     const { t } = useTranslation();
+    const [searchTerm, setSearchTerm] = React.useState("Mary");
     return (
         <Grid container direction="column" padding={4}>
             <Grid item>
@@ -15,8 +16,8 @@ export const FindMovies: FC<FindMoviesProps> = () => {
                     {t("hello")}
                 </Typography>
             </Grid>
-            <SearchInput />
-            <MoviesContainer />
+            <SearchInput setSearchTerm={setSearchTerm} />
+            <MoviesContainer searchTerm={searchTerm} />
         </Grid >
     );
 };
