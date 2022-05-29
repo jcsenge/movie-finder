@@ -1,7 +1,8 @@
-import { useQuery } from "@apollo/client";
+
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import React, { FC } from "react";
-import { Movie, SearchMoviesQuery, useSearchMoviesQuery } from "../../generated/graphql";
+import { useSearchMoviesQuery } from "../../generated/graphql";
+import { LoadingSpinner } from "../loading-spinner/loading-spinner";
 
 const PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/400x500/424242/969696.png?text=No+Poster+Image";
 
@@ -10,9 +11,8 @@ export interface MoviesContainerProps {
 }
 
 export const MoviesContainer: FC<MoviesContainerProps> = ({ searchTerm }) => {
-
     const { loading, error, data } = useSearchMoviesQuery({ variables: { query: searchTerm } });
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <LoadingSpinner />;
     if (error) return <p>Error :</p>;
 
     return (
