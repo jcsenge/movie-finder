@@ -7,6 +7,7 @@ import { PLACEHOLDER_IMAGE_URL } from "../movie-card/movie-card";
 
 const WIKIPEDIA_PAGE_BY_ID_URL = "https://en.wikipedia.org/wiki?curid="
 const WIKIPEDIA_SEARCH_URL = "https://en.wikipedia.org/w/api.php?origin=%2A&format=json&action=query&prop=extracts&explaintext=1&titles=";
+const WIKIPEDIA_SEARCH_FORMAT = "&utf8=&format=json";
 interface WikiPage {
     title: string;
     extract: string;
@@ -25,13 +26,13 @@ export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isO
     const [wikiPage, setWikiPage] = useState<WikiPage>();
 
     useEffect(() => {
-        fetch(`${WIKIPEDIA_SEARCH_URL}${movieData.name.replace(" ", "_")}&utf8=&format=json`)
+        fetch(`${WIKIPEDIA_SEARCH_URL}${movieData.name.replace(" ", "_")}${WIKIPEDIA_SEARCH_FORMAT}`)
             .then(res => res.json())
             .then(
                 (data) => {
                     const wikiPages = Object.values(data.query.pages) as WikiPage[];
                     setIsLoaded(true);
-                    setWikiPage(wikiPages[0]);
+                    setWikiPage({ ...wikiPages[0], extract: wikiPages[0]?.extract.split("==")[0] });
                 },
                 (error) => {
                     setIsLoaded(true);
@@ -82,17 +83,17 @@ export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isO
                         <Grid item xs={10}>
                             {new Date(movieData.releaseDate).toLocaleDateString()}
                         </Grid>
-                        {wikiPage?.pageid &&
+                        {wikiPage?.extract &&
                             <Grid item xs={12}>
                                 <Typography fontWeight="bold">
                                     {t("information_from_wikipedia")}:
                                 </Typography>
-                                wikiPage.extract
+                                {wikiPage.extract}
                             </Grid>}
                     </Grid>
                 </DialogContentText>
                 <DialogActions>
-                    <Button disabled={wikiPage?.pageid === undefined} onClick={openMoreInfoTabs} >More info</Button>
+                    <Button disabled={!wikiPage?.pageid} onClick={openMoreInfoTabs} >More info</Button>
                     <Button onClick={handleClose}>{t("close")}</Button>
                 </DialogActions>
             </DialogContent>
