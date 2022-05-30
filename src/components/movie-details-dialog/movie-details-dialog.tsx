@@ -1,9 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Rating, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, Rating, Typography } from "@mui/material";
 import React, { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SearchMoviesQuery } from "../../generated/graphql";
 import { LoadingSpinner } from "../loading-spinner/loading-spinner";
 import { PLACEHOLDER_IMAGE_URL } from "../movie-card/movie-card";
+import imdbLogo from "../../../src/resources/img/imdb-logo.png";
 
 const WIKIPEDIA_PAGE_BY_ID_URL = "https://en.wikipedia.org/wiki?curid="
 const WIKIPEDIA_SEARCH_URL = "https://en.wikipedia.org/w/api.php?origin=%2A&format=json&action=query&prop=extracts&explaintext=1&titles=";
@@ -42,9 +43,9 @@ export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isO
             )
     }, [movieData.name])
 
-    const openMoreInfoTabs = useCallback(() => {
+    const openUrlInNewTab = useCallback((url: string) => {
         if (wikiPage) {
-            window.open(`${WIKIPEDIA_PAGE_BY_ID_URL}${wikiPage?.pageid}`, '_blank', 'noopener,noreferrer');
+            window.open(url, '_blank', 'noopener,noreferrer');
         }
     }, [wikiPage]);
 
@@ -93,7 +94,14 @@ export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isO
                     </Grid>
                 </DialogContentText>
                 <DialogActions>
-                    <Button disabled={!wikiPage?.pageid} onClick={openMoreInfoTabs} >More info</Button>
+                    <IconButton disabled={!movieData.socialMedia?.imdb} disableRipple size="small" onClick={() => { openUrlInNewTab(movieData?.socialMedia?.imdb) }}>
+                        <img width={30} height={30} src={imdbLogo} alt="IMDB logo"></img>
+                    </IconButton>
+                    <Button
+                        disabled={!wikiPage?.pageid}
+                        onClick={() => openUrlInNewTab(`${WIKIPEDIA_PAGE_BY_ID_URL}${wikiPage?.pageid}`)}>
+                        {t("open_wikipedia")}
+                    </Button>
                     <Button onClick={handleClose}>{t("close")}</Button>
                 </DialogActions>
             </DialogContent>

@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Lottie from "lottie-react";
 import React, { FC } from "react";
-import movieLoader from "../../lottie-files/movieLoader.json";
+import movieLoader from "../../../src/resources/lottie-files/movieLoader.json";
 
 export const LoadingSpinner: FC = () => {
     return (

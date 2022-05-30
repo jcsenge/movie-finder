@@ -8,6 +8,9 @@ export const MOVIES = gql`
     overview
     releaseDate
     score
+    socialMedia{
+      imdb
+    }
     genres {
       name
     }

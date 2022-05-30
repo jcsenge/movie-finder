@@ -5,5 +5,6 @@
   "close": "Close",
   "genre": "Genre",
   "released": "Released",
-  "information_from_wikipedia": "Information from Wikipedia"
+  "information_from_wikipedia": "Information from Wikipedia",
+  "open_wikipedia": "Open Wikipedia"
 }
