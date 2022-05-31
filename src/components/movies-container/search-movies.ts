@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const MOVIES = gql`
+export const SEARCH_MOVIES = gql`
   query SearchMovies($query: String!) {
     searchMovies(query: $query) {
     id
@@ -13,6 +13,7 @@ export const MOVIES = gql`
     }
     genres {
       name
+      id
     }
     poster {
       huge

@@ -1,11 +1,13 @@
 import { Button, Card, CardContent, CardMedia, Grid, Slide } from "@mui/material";
 import React, { FC } from "react";
-import { SearchMoviesQuery } from "../../generated/graphql";
+import { DiscoverMoviesQuery, SearchMoviesQuery } from "../../generated/graphql";
 
 export const PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/400x500/424242/969696.png?text=No+Poster+Image";
 
+export type MovieData = SearchMoviesQuery["searchMovies"][number] | DiscoverMoviesQuery["discoverMovies"][number];
+
 export interface MovieCardProps {
-    movieData: SearchMoviesQuery["searchMovies"][number];
+    movieData: MovieData;
     onMovieTitleClick: () => void;
 }
 

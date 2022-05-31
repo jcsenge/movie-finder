@@ -23,7 +23,7 @@ export const SearchInput: FC<SearchInputProps> = ({ setSearchTerm }) => {
                 }} onChange={(e) => setTextFieldValue(e.target.value)} size="small" label={t("search_for_movies")} />
             </Grid>
             <Grid item>
-                <Button size={"medium"} onClick={handleSubmit} variant="contained">{t("submit")}</Button>
+                <Button disabled={textFieldValue.length === 0} size={"medium"} onClick={handleSubmit} variant="contained">{t("submit")}</Button>
             </Grid>
         </Grid >
     );

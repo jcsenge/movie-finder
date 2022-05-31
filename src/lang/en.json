@@ -6,5 +6,7 @@
   "genre": "Genre",
   "released": "Released",
   "information_from_wikipedia": "Information from Wikipedia",
-  "open_wikipedia": "Open Wikipedia"
+  "open_wikipedia": "Open Wikipedia",
+  "search_related": "Search related movies",
+  "related_to": "Related to: "
 }

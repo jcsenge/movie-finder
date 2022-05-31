@@ -1,7 +1,9 @@
-import { Grid, Typography } from "@mui/material";
-import React, { FC } from "react";
+import { Box, Chip, Grid, Typography } from "@mui/material";
+import React, { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MoviesContainer } from "../../components/movies-container/movies-container";
+import { MovieData } from "../../components/movie-card/movie-card";
+import { MovieDetailsDialog } from "../../components/movie-details-dialog/movie-details-dialog";
 import { SearchInput } from "../../components/search-input/search-input";
 
 export interface FindMoviesProps { }
@@ -9,6 +11,15 @@ export interface FindMoviesProps { }
 export const FindMovies: FC<FindMoviesProps> = () => {
     const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = React.useState("");
+    const [selectedMovieToSearchRelated, setSelectedMovieToSearchRelated] = React.useState<MovieData>();
+    const [selectedMovie, setSelectedMovie] = useState<MovieData>();
+
+    const handleSearchRelated = (movieData: MovieData) => {
+        setSelectedMovieToSearchRelated(movieData);
+        setSelectedMovie(undefined);
+        setSearchTerm("");
+    }
+
     return (
         <Grid container direction="column" padding={4}>
             <Grid item>
@@ -16,8 +27,12 @@ export const FindMovies: FC<FindMoviesProps> = () => {
                     {t("hello")}
                 </Typography>
             </Grid>
-            <SearchInput setSearchTerm={setSearchTerm} />
-            <MoviesContainer searchTerm={searchTerm} />
+            {!selectedMovieToSearchRelated ?
+                <SearchInput setSearchTerm={setSearchTerm} /> :
+                <Box paddingX={4} width="100%" display="flex" justifyContent="center"><Chip label={`${t("related_to")}${selectedMovieToSearchRelated.name}`} onDelete={() => setSelectedMovieToSearchRelated(undefined)} /></Box>
+            }
+            <MoviesContainer searchTerm={searchTerm} setSelectedMovie={setSelectedMovie} selectedMovieToSearchRelated={selectedMovieToSearchRelated} />
+            {selectedMovie && <MovieDetailsDialog handleSearchRelated={handleSearchRelated} movieData={selectedMovie} isOpen={selectedMovie !== undefined || selectedMovieToSearchRelated !== undefined} handleClose={() => setSelectedMovie(undefined)} />}
         </Grid >
     );
 };

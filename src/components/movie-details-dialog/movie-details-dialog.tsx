@@ -3,7 +3,7 @@ import React, { FC, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SearchMoviesQuery } from "../../generated/graphql";
 import { LoadingSpinner } from "../loading-spinner/loading-spinner";
-import { PLACEHOLDER_IMAGE_URL } from "../movie-card/movie-card";
+import { MovieData, PLACEHOLDER_IMAGE_URL } from "../movie-card/movie-card";
 import imdbLogo from "../../../src/resources/img/imdb-logo.png";
 
 const WIKIPEDIA_PAGE_BY_ID_URL = "https://en.wikipedia.org/wiki?curid="
@@ -18,10 +18,11 @@ interface WikiPage {
 export interface MovieDetailsDialogProps {
     isOpen: boolean;
     movieData: SearchMoviesQuery["searchMovies"][number];
+    handleSearchRelated: (searchRelated: MovieData) => void;
     handleClose: () => void;
 }
 
-export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isOpen, handleClose }) => {
+export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isOpen, handleSearchRelated, handleClose }) => {
     const { t } = useTranslation();
     const [isLoaded, setIsLoaded] = useState(false);
     const [wikiPage, setWikiPage] = useState<WikiPage>();
@@ -37,8 +38,6 @@ export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isO
                 },
                 (error) => {
                     setIsLoaded(true);
-                    console.log(error);
-
                 }
             )
     }, [movieData.name])
@@ -57,8 +56,8 @@ export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isO
         <Dialog
             open={isOpen}
         >
-            <DialogTitle display="flex" justifyContent="space-between">
-                <Typography fontSize={20}>{movieData.name}</Typography>
+            <DialogTitle fontSize={20} display="flex" justifyContent="space-between">
+                <Box>{movieData.name}</Box>
                 <Rating readOnly value={movieData.score / 2.0} precision={0.5} />
             </DialogTitle>
             <DialogContent>
@@ -70,32 +69,33 @@ export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({ movieData, isO
                         {movieData.overview}
                     </Grid>
                 </Grid>
-                <DialogContentText fontSize={16} display="flex" >
+                <Box fontSize={16} display="flex" >
                     <Grid container spacing={2} marginY={2} display="flex">
-                        <Grid item xs={2}>
+                        <Grid item xs={4} md={2}>
                             {t("genre")}:
                         </Grid>
-                        <Grid item xs={10} display="flex">
-                            {movieData.genres.map((genre, index) => (<Typography key={index}>{genre.name}{index < movieData.genres.length - 1 && ","}</Typography>))}
+                        <Grid item xs={7} md={10} display="flex">
+                            {movieData.genres.map((genre, index) => (<Box key={index}>{genre.name}{index < movieData.genres.length - 1 && ","}</Box>))}
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={4} md={2}>
                             {t("released")}:
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={7} md={10}>
                             {new Date(movieData.releaseDate).toLocaleDateString()}
                         </Grid>
                         {wikiPage?.extract &&
                             <Grid item xs={12}>
-                                <Typography fontWeight="bold">
+                                <Box fontWeight="bold">
                                     {t("information_from_wikipedia")}:
-                                </Typography>
+                                </Box>
                                 {wikiPage.extract}
                             </Grid>}
                     </Grid>
-                </DialogContentText>
+                </Box>
                 <DialogActions>
+                    <Button onClick={() => handleSearchRelated(movieData)} variant="outlined">{t("search_related")}</Button>
                     <IconButton disabled={!movieData.socialMedia?.imdb} disableRipple size="small" onClick={() => { openUrlInNewTab(movieData?.socialMedia?.imdb) }}>
-                        <img width={30} height={30} src={imdbLogo} alt="IMDB logo"></img>
+                        <img width={30} height={30} src={imdbLogo} alt="IMDB logo" />
                     </IconButton>
                     <Button
                         disabled={!wikiPage?.pageid}

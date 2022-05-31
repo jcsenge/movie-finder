@@ -1203,14 +1203,70 @@ export type VoteAverageInput = {
   min?: InputMaybe<Scalars['ScoreMinimumRange']>;
 };
 
+export type DiscoverMoviesQueryVariables = Exact<{
+  genres: Array<Scalars['ID']> | Scalars['ID'];
+}>;
+
+
+export type DiscoverMoviesQuery = { __typename?: 'Query', discoverMovies: Array<{ __typename?: 'Movie', id: string, name: string, overview: string, releaseDate?: any | null, score: number, socialMedia?: { __typename?: 'SocialMedia', imdb?: any | null } | null, genres: Array<{ __typename?: 'Genre', name: string, id: string }>, poster?: { __typename?: 'Poster', huge?: any | null } | null }> };
+
 export type SearchMoviesQueryVariables = Exact<{
   query: Scalars['String'];
 }>;
 
 
-export type SearchMoviesQuery = { __typename?: 'Query', searchMovies: Array<{ __typename?: 'Movie', id: string, name: string, overview: string, releaseDate?: any | null, score: number, socialMedia?: { __typename?: 'SocialMedia', imdb?: any | null } | null, genres: Array<{ __typename?: 'Genre', name: string }>, poster?: { __typename?: 'Poster', huge?: any | null } | null }> };
+export type SearchMoviesQuery = { __typename?: 'Query', searchMovies: Array<{ __typename?: 'Movie', id: string, name: string, overview: string, releaseDate?: any | null, score: number, socialMedia?: { __typename?: 'SocialMedia', imdb?: any | null } | null, genres: Array<{ __typename?: 'Genre', name: string, id: string }>, poster?: { __typename?: 'Poster', huge?: any | null } | null }> };
 
 
+export const DiscoverMoviesDocument = gql`
+    query DiscoverMovies($genres: [ID!]!) {
+  discoverMovies(filter: {withGenres: {include: $genres}}) {
+    id
+    name
+    overview
+    releaseDate
+    score
+    socialMedia {
+      imdb
+    }
+    genres {
+      name
+      id
+    }
+    poster {
+      huge
+    }
+  }
+}
+    `;
+
+/**
+ * __useDiscoverMoviesQuery__
+ *
+ * To run a query within a React component, call `useDiscoverMoviesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useDiscoverMoviesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useDiscoverMoviesQuery({
+ *   variables: {
+ *      genres: // value for 'genres'
+ *   },
+ * });
+ */
+export function useDiscoverMoviesQuery(baseOptions: Apollo.QueryHookOptions<DiscoverMoviesQuery, DiscoverMoviesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<DiscoverMoviesQuery, DiscoverMoviesQueryVariables>(DiscoverMoviesDocument, options);
+      }
+export function useDiscoverMoviesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<DiscoverMoviesQuery, DiscoverMoviesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<DiscoverMoviesQuery, DiscoverMoviesQueryVariables>(DiscoverMoviesDocument, options);
+        }
+export type DiscoverMoviesQueryHookResult = ReturnType<typeof useDiscoverMoviesQuery>;
+export type DiscoverMoviesLazyQueryHookResult = ReturnType<typeof useDiscoverMoviesLazyQuery>;
+export type DiscoverMoviesQueryResult = Apollo.QueryResult<DiscoverMoviesQuery, DiscoverMoviesQueryVariables>;
 export const SearchMoviesDocument = gql`
     query SearchMovies($query: String!) {
   searchMovies(query: $query) {
@@ -1224,6 +1280,7 @@ export const SearchMoviesDocument = gql`
     }
     genres {
       name
+      id
     }
     poster {
       huge
