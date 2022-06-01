@@ -7,6 +7,7 @@ import {
   Slide,
 } from "@mui/material";
 import React, { FC } from "react";
+import { useTranslation } from "react-i18next";
 import {
   DiscoverMoviesQuery,
   SearchMoviesQuery,
@@ -28,17 +29,19 @@ export const MovieCard: FC<MovieCardProps> = ({
   movieData,
   onMovieTitleClick,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Grid item sx={{ minWidth: 200 }}>
       <Slide direction="right" in={true}>
-        <Card>
+        <Card id="movie-card">
           <CardMedia
             component="img"
             height="300"
-            alt="movieImage"
+            alt={t("movie_poster_alt")}
             image={movieData.poster?.huge ?? PLACEHOLDER_IMAGE_URL}
           />
-          <CardContent>
+          <CardContent id="movie-title-button">
             <Button onClick={onMovieTitleClick}>{movieData.name}</Button>
           </CardContent>
         </Card>

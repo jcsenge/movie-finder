@@ -12,5 +12,6 @@
   "error": "Error 🚧:",
   "search_for_a_movie": "Search for a movie...⬆️",
   "sorry_no_results": "Sorry, results found.",
-  "imdb_alt_text": "IMDB logo"
+  "imdb_alt_text": "IMDB logo",
+  "movie_poster_alt": "Movie poster"
 }

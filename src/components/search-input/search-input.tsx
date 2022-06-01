@@ -26,6 +26,7 @@ export const SearchInput: FC<SearchInputProps> = ({ setSearchTerm }) => {
     >
       <Grid item>
         <TextField
+          id="movie-search-input"
           value={textFieldValue}
           onKeyDown={(e) => {
             if (e.key === "Enter") {

@@ -56,7 +56,7 @@ export const MovieDetailsDialog: FC<MovieDetailsDialogProps> = ({
   }
 
   return (
-    <Dialog open={isOpen}>
+    <Dialog id="movie-details-dialog" open={isOpen}>
       <MovieDialogTitle name={movieData.name} score={movieData.score} />
       <DialogContent>
         <MovieDialogDetails wikiPage={wikiPage} movieData={movieData} />
