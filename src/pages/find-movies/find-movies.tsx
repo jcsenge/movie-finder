@@ -6,33 +6,54 @@ import { MovieData } from "../../components/movie-card/movie-card";
 import { MovieDetailsDialog } from "../../components/movie-details-dialog/movie-details-dialog";
 import { SearchInput } from "../../components/search-input/search-input";
 
-export interface FindMoviesProps { }
+export interface FindMoviesProps {}
 
 export const FindMovies: FC<FindMoviesProps> = () => {
-    const { t } = useTranslation();
-    const [searchTerm, setSearchTerm] = React.useState("");
-    const [selectedMovieToSearchRelated, setSelectedMovieToSearchRelated] = React.useState<MovieData>();
-    const [selectedMovie, setSelectedMovie] = useState<MovieData>();
+  const { t } = useTranslation();
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [selectedMovieToSearchRelated, setSelectedMovieToSearchRelated] =
+    React.useState<MovieData>();
+  const [selectedMovie, setSelectedMovie] = useState<MovieData>();
 
-    const handleSearchRelated = (movieData: MovieData) => {
-        setSelectedMovieToSearchRelated(movieData);
-        setSelectedMovie(undefined);
-        setSearchTerm("");
-    }
+  const handleSearchRelated = (movieData: MovieData) => {
+    setSelectedMovieToSearchRelated(movieData);
+    setSelectedMovie(undefined);
+    setSearchTerm("");
+  };
 
-    return (
-        <Grid container direction="column" padding={4}>
-            <Grid item>
-                <Typography variant="h1" fontSize="2.5rem" align="center" marginY={8}>
-                    {t("hello")}
-                </Typography>
-            </Grid>
-            {!selectedMovieToSearchRelated ?
-                <SearchInput setSearchTerm={setSearchTerm} /> :
-                <Box paddingX={4} width="100%" display="flex" justifyContent="center"><Chip label={`${t("related_to")}${selectedMovieToSearchRelated.name}`} onDelete={() => setSelectedMovieToSearchRelated(undefined)} /></Box>
-            }
-            <MoviesContainer searchTerm={searchTerm} setSelectedMovie={setSelectedMovie} selectedMovieToSearchRelated={selectedMovieToSearchRelated} />
-            {selectedMovie && <MovieDetailsDialog handleSearchRelated={handleSearchRelated} movieData={selectedMovie} isOpen={selectedMovie !== undefined || selectedMovieToSearchRelated !== undefined} handleClose={() => setSelectedMovie(undefined)} />}
-        </Grid >
-    );
+  return (
+    <Grid container direction="column" padding={4}>
+      <Grid item>
+        <Typography variant="h1" fontSize="2.5rem" align="center" marginY={8}>
+          {t("hello")}
+        </Typography>
+      </Grid>
+      {!selectedMovieToSearchRelated ? (
+        <SearchInput setSearchTerm={setSearchTerm} />
+      ) : (
+        <Box paddingX={4} width="100%" display="flex" justifyContent="center">
+          <Chip
+            label={`${t("related_to")}${selectedMovieToSearchRelated.name}`}
+            onDelete={() => setSelectedMovieToSearchRelated(undefined)}
+          />
+        </Box>
+      )}
+      <MoviesContainer
+        searchTerm={searchTerm}
+        setSelectedMovie={setSelectedMovie}
+        selectedMovieToSearchRelated={selectedMovieToSearchRelated}
+      />
+      {selectedMovie && (
+        <MovieDetailsDialog
+          handleSearchRelated={handleSearchRelated}
+          movieData={selectedMovie}
+          isOpen={
+            selectedMovie !== undefined ||
+            selectedMovieToSearchRelated !== undefined
+          }
+          handleClose={() => setSelectedMovie(undefined)}
+        />
+      )}
+    </Grid>
+  );
 };

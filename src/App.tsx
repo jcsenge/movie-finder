@@ -1,11 +1,11 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { FindMovies } from './pages/find-movies/find-movies';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import { CssBaseline } from '@mui/material';
-import { initReactI18next } from 'react-i18next';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { FindMovies } from "./pages/find-movies/find-movies";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import { CssBaseline } from "@mui/material";
+import { initReactI18next } from "react-i18next";
 import i18n from "i18next";
 import "./App.css";
 import translationEN from "./lang/en.json";
@@ -16,26 +16,24 @@ const resources = {
   },
 };
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: resources,
-    lng: "en",
-    fallbackLng: "en",
-    interpolation: {
-      escapeValue: false
-    }
-  });
+i18n.use(initReactI18next).init({
+  resources: resources,
+  lng: "en",
+  fallbackLng: "en",
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
       main: "#c0ffee",
     },
     secondary: {
-      main: "#82b1ff"
-    }
+      main: "#82b1ff",
+    },
   },
 });
 
