@@ -8,5 +8,9 @@
   "information_from_wikipedia": "Information from Wikipedia",
   "open_wikipedia": "Open Wikipedia",
   "search_related": "Search related movies",
-  "related_to": "Related to: "
+  "related_to": "Related to: ",
+  "error": "Error 🚧:",
+  "search_for_a_movie": "Search for a movie...⬆️",
+  "sorry_no_results": "Sorry, results found.",
+  "imdb_alt_text": "IMDB logo"
 }
