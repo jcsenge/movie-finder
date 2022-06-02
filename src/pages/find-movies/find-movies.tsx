@@ -1,25 +1,23 @@
 import { Box, Chip, Grid, Typography } from "@mui/material";
-import React, { FC, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MoviesContainer } from "../../components/movies-container/movies-container";
 import { MovieData } from "../../components/movie-card/movie-card";
 import { MovieDetailsDialog } from "../../components/movie-details-dialog/movie-details-dialog";
 import { SearchInput } from "../../components/search-input/search-input";
 
-export interface FindMoviesProps {}
-
-export const FindMovies: FC<FindMoviesProps> = () => {
+export const FindMovies: FC = () => {
   const { t } = useTranslation();
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedMovieToSearchRelated, setSelectedMovieToSearchRelated] =
-    React.useState<MovieData>();
+    useState<MovieData>();
   const [selectedMovie, setSelectedMovie] = useState<MovieData>();
 
-  const handleSearchRelated = (movieData: MovieData) => {
+  const handleSearchRelated = useCallback((movieData: MovieData) => {
     setSelectedMovieToSearchRelated(movieData);
     setSelectedMovie(undefined);
     setSearchTerm("");
-  };
+  }, []);
 
   return (
     <Grid container direction="column" padding={4}>

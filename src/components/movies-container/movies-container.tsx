@@ -23,18 +23,19 @@ export const MoviesContainer: FC<MoviesContainerProps> = ({
   setSelectedMovie,
 }) => {
   const { t } = useTranslation();
-  const [
-    discoverMovies,
+  const [discoverMovies,
     {
       data: discoveredData,
       loading: discoveredLoading,
       error: discoveredError,
     },
   ] = useDiscoverMoviesLazyQuery();
-  const [
-    searchMovies,
-    { data: searchData, loading: searchLoading, error: searchError },
+  const [searchMovies,
+    { data: searchData,
+      loading: searchLoading,
+      error: searchError },
   ] = useSearchMoviesLazyQuery();
+
   const genreIDs = useMemo<string[]>(() => {
     if (selectedMovieToSearchRelated) {
       const genres = selectedMovieToSearchRelated.genres.map(
@@ -91,7 +92,7 @@ export const MoviesContainer: FC<MoviesContainerProps> = ({
     return <InformationBox text={t("search_for_a_movie")} />;
   }
 
-  if (movies.length === 0) {
+  if (!movies || movies.length === 0) {
     return <InformationBox text={t("sorry_no_results")} />;
   }
 
@@ -105,14 +106,13 @@ export const MoviesContainer: FC<MoviesContainerProps> = ({
       spacing={2}
       marginY={4}
     >
-      {movies &&
-        movies.map((movieData: MovieData) => (
-          <MovieCard
-            onMovieTitleClick={() => setSelectedMovie(movieData)}
-            key={movieData.id}
-            movieData={movieData}
-          />
-        ))}
+      {movies.map((movieData: MovieData) => (
+        <MovieCard
+          onMovieTitleClick={() => setSelectedMovie(movieData)}
+          key={movieData.id}
+          movieData={movieData}
+        />
+      ))}
     </Grid>
   );
 };
